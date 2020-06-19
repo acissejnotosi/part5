@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+import SuccessNotification from "./components/successNotification";
+import ErrorNotification from "./components/errorNotification";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -11,6 +13,8 @@ const App = () => {
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
   const [user, setUser] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -38,7 +42,10 @@ const App = () => {
       setUsername("");
       setPassword("");
     } catch (exception) {
-      window.alert("Wrong credentials");
+      setErrorMessage("Wrong Credentials");
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
     }
   };
 
@@ -48,13 +55,20 @@ const App = () => {
       await blogService.create({
         title,
         author,
-        url
+        url,
       });
     } catch (exception) {
-      window.alert("The system couldn't create a new blog ");
+      setErrorMessage("Error, blog not created");
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
     }
-    window.alert("Created");
-  }
+    setSuccessMessage("new blog");
+    setTimeout(() => {
+      setSuccessMessage(null);
+    }, 5000);
+    
+  };
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
@@ -128,6 +142,8 @@ const App = () => {
 
   return (
     <div>
+      <SuccessNotification message={successMessage} />
+      <ErrorNotification message={errorMessage} />
       <h2>blogs</h2>
       {user === null ? (
         loginForm()
