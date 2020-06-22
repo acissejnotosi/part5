@@ -14,24 +14,18 @@ const Blog = ({ blog }) => {
   const hideWhenVisible = { display: blogVisible ? "none" : "" };
   const showWhenVisible = { display: blogVisible ? "" : "none" };
   return (
-    <div>
-      <div style={blogStyle}>
-        {" "}
-        {blog.title}
-        <button style={hideWhenVisible} onClick={() => setBlogVisible(true)}>
-          view
-        </button>
-        <button style={showWhenVisible} onClick={() => setBlogVisible(false)}>
-          hide
-        </button>
-      </div>
-      <div style={showWhenVisible}>
-        <div style={blogStyle}>
-          <div>{blog.author} </div>
-          <div>{blog.url} </div>
-          <div>{blog.likes} </div>
-        </div>
-      </div>
+    <div style={blogStyle}>
+      {" "}
+      {blog.title}
+      <button style={hideWhenVisible} onClick={() => setBlogVisible(true)}>
+        view
+      </button>
+      <button style={showWhenVisible} onClick={() => setBlogVisible(false)}>
+        hide
+      </button>
+      <div style={showWhenVisible}>{blog.author} </div>
+      <div style={showWhenVisible}>{blog.url} </div>
+      <div style={showWhenVisible}>{blog.likes} </div>
     </div>
   );
 };
