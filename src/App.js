@@ -7,6 +7,7 @@ import ErrorNotification from "./components/errorNotification";
 import LoginForm from "./components/login";
 import CreateBlog from "./components/createBlog";
 import Togglable from "./components/togglable";
+
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
@@ -87,7 +88,7 @@ const App = () => {
   const showBlogs = () => (
     <div>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} />
       ))}
     </div>
   );
