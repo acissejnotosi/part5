@@ -42,7 +42,7 @@ const App = () => {
       setUsername("");
       setPassword("");
     } catch (exception) {
-      setErrorMessage("Wrong Credentials");
+      setErrorMessage("Wrong username or password");
       setTimeout(() => {
         setErrorMessage(null);
       }, 5000);
@@ -63,11 +63,19 @@ const App = () => {
         setErrorMessage(null);
       }, 5000);
     }
-    setSuccessMessage("new blog");
+    setSuccessMessage(`a new blog ${title} by ${author} added`);
     setTimeout(() => {
       setSuccessMessage(null);
     }, 5000);
-    
+
+    try {
+      setBlogs(await blogService.getAll());
+    } catch (error) {
+      setErrorMessage(`The following error was detected: ${error}`);
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+    }
   };
 
   const loginForm = () => (
