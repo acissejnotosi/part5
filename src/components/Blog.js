@@ -8,7 +8,7 @@ const blogStyle = {
   marginBottom: 5,
 };
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, handleLikeButton }) => {
   const [blogVisible, setBlogVisible] = useState(false);
 
   const hideWhenVisible = { display: blogVisible ? "none" : "" };
@@ -25,7 +25,9 @@ const Blog = ({ blog }) => {
       </button>
       <div style={showWhenVisible}>{blog.author} </div>
       <div style={showWhenVisible}>{blog.url} </div>
-      <div style={showWhenVisible}>{blog.likes} </div>
+      <div style={showWhenVisible}>{blog.likes} 
+        <button onClick={() => handleLikeButton(blog)}>like</button>
+      </div>
     </div>
   );
 };

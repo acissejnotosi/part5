@@ -85,10 +85,37 @@ const App = () => {
     }
   };
 
+  const updateWithLikes = async (blog) => {
+    const updatedBlog = {
+      title: blog.title,
+      author: blog.author,
+      id: blog.id,
+      url: blog.url,
+      likes: blog.likes + 1,
+    };
+
+    try {
+      const returnedBlog = await blogService.update(blog.id, updatedBlog);
+      console.log(returnedBlog);
+      setBlogs(
+        blogs.map((item) => (item.id !== blog.id ? item : returnedBlog))
+      );
+    } catch (error) {
+      setErrorMessage(error.response.data.error);
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+    }
+    setSuccessMessage(`Blog ${blog.title} was successfully updated!`);
+    setTimeout(() => {
+      setSuccessMessage(null);
+    }, 5000);
+  };
+
   const showBlogs = () => (
     <div>
       {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} handleLikeButton={updateWithLikes} />
       ))}
     </div>
   );
