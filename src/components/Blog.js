@@ -12,7 +12,6 @@ const Blog = ({ blog, handleLikeButton, handleDeleteButton, showDeleteButton }) 
   const [blogVisible, setBlogVisible] = useState(false);
   const hideWhenVisible = { display: blogVisible ? "none" : "" };
   const showWhenVisible = { display: blogVisible ? "" : "none" };
-  console.log(showDeleteButton)
   return (
     <div style={blogStyle}>
       {" "}
