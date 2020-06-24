@@ -56,32 +56,48 @@ const App = () => {
     }
   };
 
-  const handleCreateBlog = async (event) => {
-    event.preventDefault();
+  const handleCreateBlog = async () => {
     try {
       await blogService.create({
         title,
         author,
         url,
       });
+      setSuccessMessage(`a new blog ${title} by ${author} added`);
+      setTimeout(() => {
+        setSuccessMessage(null);
+      }, 5000);
     } catch (exception) {
       setErrorMessage("Error, blog not created");
       setTimeout(() => {
         setErrorMessage(null);
       }, 5000);
     }
-    setSuccessMessage(`a new blog ${title} by ${author} added`);
-    setTimeout(() => {
-      setSuccessMessage(null);
-    }, 5000);
-
-    try {
+    /* try {
       setBlogs(await blogService.getAll());
     } catch (error) {
       setErrorMessage(`The following error was detected: ${error}`);
       setTimeout(() => {
         setErrorMessage(null);
       }, 5000);
+    } */
+  };
+
+  const handleDeleteButton = async (blog) => {
+    if (window.confirm(`Delete ${blog.title}?`)) {
+      try {
+        await blogService.del(blog.id);
+        setBlogs(blogs.filter((item) => item.id !== blog.id));
+        setSuccessMessage(`Blog ${blog.title} removed with success!`);
+        setTimeout(() => {
+          setSuccessMessage(null);
+        }, 5000);
+      } catch (error) {
+        setErrorMessage(error.response.data.error);
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 5000);
+      }
     }
   };
 
@@ -99,27 +115,35 @@ const App = () => {
       setBlogs(
         blogs.map((item) => (item.id !== blog.id ? item : returnedBlog))
       );
+      setSuccessMessage(`Blog ${blog.title} was successfully updated!`);
+      setTimeout(() => {
+        setSuccessMessage(null);
+      }, 5000);
     } catch (error) {
       setErrorMessage(error.response.data.error);
       setTimeout(() => {
         setErrorMessage(null);
       }, 5000);
     }
-    setSuccessMessage(`Blog ${blog.title} was successfully updated!`);
-    setTimeout(() => {
-      setSuccessMessage(null);
-    }, 5000);
   };
 
-  const showBlogs = () => (
-    <div>
-      {blogs
-        .sort((item1, item2) => item1.likes < item2.likes)
-        .map((blog) => (
-          <Blog key={blog.id} blog={blog} handleLikeButton={updateWithLikes} />
-        ))}
-    </div>
-  );
+  const showBlogs = () => {
+    return (
+      <div>
+        {blogs
+          .sort((item1, item2) => item1.likes < item2.likes)
+          .map((blog) => (
+            <Blog
+              key={blog.id}
+              blog={blog}
+              handleLikeButton={updateWithLikes}
+              handleDeleteButton={handleDeleteButton}
+              showDeleteButton={(blog.user.id ===user.id) ? {visibility:'visible'} : {visibility:'hidden'}}
+            />
+          ))}
+      </div>
+    );
+  };
 
   const handleLogout = () => {
     window.localStorage.removeItem("loggedBlogappUser");
