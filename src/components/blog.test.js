@@ -2,21 +2,44 @@ import React from "react";
 import "@testing-library/jest-dom/extend-expect";
 import { render, fireEvent } from "@testing-library/react";
 import Blog from "./Blog";
-import { prettyDOM } from '@testing-library/dom'
+//import { prettyDOM } from '@testing-library/dom'
 
-test("renders content", () => {
+describe("When show button is clicked. ", () => {
+  let component;
   const blog = {
     title: "Component testing",
     author: "Author testing",
+    url: "url testing",
+    likes: 2,
+    user: { name: "jessica" },
   };
 
-  const component = render(<Blog blog={blog} />);
+  beforeEach(() => {
+    const mockHandler = jest.fn();
+    component = render(<Blog blog={blog} handleShowButton={mockHandler} />);
+  });
 
-  component.debug()
+  test("It renders the blog's title and author, but does not render its url or number of likes by default", () => {
+    const hideWhenExpandedDiv = component.container.querySelector(
+      ".visibleContent"
+    );
+    const showWhenExpandedDiv = component.container.querySelector(
+      ".hiddenContent"
+    );
+    expect(hideWhenExpandedDiv).toBeVisible();
+    expect(showWhenExpandedDiv).not.toBeVisible();
+  });
 
-  expect(component.container).toHaveTextContent(
-    "Component testing",
-    "Author testing"
-  );
-
+  test("after clicking the button, url and likes are displayed and view button is not displayed", () => {
+    const button = component.getByText("view");
+    fireEvent.click(button);
+    const hideWhenExpandedDiv = component.container.querySelector(
+      ".visibleContent"
+    );
+    const showWhenExpandedDiv = component.container.querySelector(
+      ".hiddenContent"
+    );
+    expect(hideWhenExpandedDiv).not.toBeVisible();
+    expect(showWhenExpandedDiv).toBeVisible();
+  });
 });

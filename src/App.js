@@ -18,6 +18,7 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -73,14 +74,6 @@ const App = () => {
         setErrorMessage(null);
       }, 5000);
     }
-    /* try {
-      setBlogs(await blogService.getAll());
-    } catch (error) {
-      setErrorMessage(`The following error was detected: ${error}`);
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
-    } */
   };
 
   const handleDeleteButton = async (blog) => {
