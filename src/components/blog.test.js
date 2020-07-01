@@ -13,10 +13,16 @@ describe("When show button is clicked. ", () => {
     likes: 2,
     user: { name: "jessica" },
   };
+  const mockHandler = jest.fn();
 
   beforeEach(() => {
-    const mockHandler = jest.fn();
-    component = render(<Blog blog={blog} handleShowButton={mockHandler} />);
+    component = render(
+      <Blog
+        blog={blog}
+        handleShowButton={mockHandler}
+        handleLikeButton={mockHandler}
+      />
+    );
   });
 
   test("It renders the blog's title and author, but does not render its url or number of likes by default", () => {
@@ -41,5 +47,12 @@ describe("When show button is clicked. ", () => {
     );
     expect(hideWhenExpandedDiv).not.toBeVisible();
     expect(showWhenExpandedDiv).toBeVisible();
+  });
+
+  test(" if the like button is clicked twice, the event handler the component received as props is called twice. ", () => {
+    const button = component.getByText("like");
+    fireEvent.click(button);
+    fireEvent.click(button);
+    expect(mockHandler.mock.calls).toHaveLength(2);
   });
 });
