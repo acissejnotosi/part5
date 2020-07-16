@@ -161,7 +161,7 @@ const App = () => {
           {" "}
           <p>
             {user.name} logged in{" "}
-            <button type="button" onClick={handleLogout}>
+            <button id="logout" type="button" onClick={handleLogout}>
               logout
             </button>
           </p>

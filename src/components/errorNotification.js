@@ -15,7 +15,11 @@ const ErrorNotification = ({ message }) => {
     return null;
   }
 
-  return <div style={errorStyle}>{message}</div>;
+  return (
+    <div className="error" style={errorStyle}>
+      {message}
+    </div>
+  );
 };
 
 export default ErrorNotification;
