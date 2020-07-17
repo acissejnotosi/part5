@@ -165,7 +165,7 @@ const App = () => {
               logout
             </button>
           </p>
-          <Togglable buttonLabel="Create">
+          <Togglable  buttonLabel="Create">
             <CreateBlog
               title={title}
               author={author}
