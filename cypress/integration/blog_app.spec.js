@@ -35,18 +35,7 @@ describe("Blog app", function () {
 
   describe.only("When logged in", function () {
     beforeEach(function () {
-      cy.request("POST", "http://localhost:3001/api/testing/reset");
-      const user = {
-        name: "Jessica Isoton",
-        username: "jenotosi",
-        passwordHash: "s3nh4",
-      };
-      cy.request("POST", "http://localhost:3001/api/users/", user);
-      cy.visit("http://localhost:3000");
-      cy.get("#username").type(user.username);
-      cy.get("#password").type(user.passwordHash);
-      cy.get("#login-button").click();
-      cy.get("html").should("contain", "Jessica Isoton logged in");
+      cy.login({ username: "jenotosi", passwordHash: "s3nh4" });
     });
 
     it("A blog can be created", function () {
@@ -56,6 +45,15 @@ describe("Blog app", function () {
       cy.get("#url").type("test url");
       cy.get("#submit-blog").click();
       cy.contains("test title test author");
+    });
+
+    it("User can like a blog", function(){
+      cy.createBlog({title: "test", author:"test", url: "test", likes: "0"});
+      cy.createBlog({title: "test 2", author:"test 2", url: "test 2", likes: "0"});
+      cy.contains('test 2 test 2').contains("view").click();
+      cy.contains('test 2 test 2').contains("like").click();
+      cy.contains('test 2 test 2').contains("1");
+      cy.contains('Blog test 2 was successfully updated!');
     });
   });
 });
