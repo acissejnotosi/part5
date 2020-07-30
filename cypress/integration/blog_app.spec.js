@@ -55,5 +55,12 @@ describe("Blog app", function () {
       cy.contains('test 2 test 2').contains("1");
       cy.contains('Blog test 2 was successfully updated!');
     });
+
+    it("User can delete its own blog", function () {
+      cy.createBlog({title: "test", author:"test", url: "test", likes: "0"});
+      cy.contains('test test').contains("view").click();
+      cy.contains('test test').contains("delete").click();
+      cy.contains('Blog test removed with success!');
+    });
   });
 });
