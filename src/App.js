@@ -18,10 +18,11 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    blogService.getAll().then((blogs) => {
+      setBlogs(blogs);
+    });
   }, []);
 
   useEffect(() => {
@@ -95,14 +96,8 @@ const App = () => {
   };
 
   const updateWithLikes = async (blog) => {
-    const updatedBlog = {
-      title: blog.title,
-      author: blog.author,
-      id: blog.id,
-      url: blog.url,
-      likes: blog.likes + 1,
-    };
-
+    blog.likes += 1;
+    const updatedBlog = { ...blog, likes: blog.likes };
     try {
       const returnedBlog = await blogService.update(blog.id, updatedBlog);
       setBlogs(
@@ -131,7 +126,7 @@ const App = () => {
               blog={blog}
               handleLikeButton={updateWithLikes}
               handleDeleteButton={handleDeleteButton}
-              showDeleteButton={(blog.user.id ===user.id) ? {visibility:'visible'} : {visibility:'hidden'}}
+              showDeleteButton={{ visibility: "visible" }}
             />
           ))}
       </div>
@@ -165,7 +160,7 @@ const App = () => {
               logout
             </button>
           </p>
-          <Togglable  buttonLabel="Create">
+          <Togglable buttonLabel="Create">
             <CreateBlog
               title={title}
               author={author}
