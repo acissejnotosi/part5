@@ -126,7 +126,7 @@ const App = () => {
               blog={blog}
               handleLikeButton={updateWithLikes}
               handleDeleteButton={handleDeleteButton}
-              showDeleteButton={blogs.user.id === user.id ?{ visibility: "visible" } : { visibility: "hidden" }}
+              showDeleteButton={blog.user.id === user.id ?{ visibility: "visible" } : { visibility: "hidden" }}
             />
           ))}
       </div>

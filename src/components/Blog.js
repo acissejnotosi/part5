@@ -37,7 +37,7 @@ const Blog = ({
       <div style={showWhenVisible} className="hiddenContent">
         <div>{blog.url} </div>
         <div>
-          {blog.likes}
+          <div id={"like-label"}>{blog.likes}</div>
           <button id={"like-button"} onClick={() => handleLikeButton(blog)}>
             like
           </button>
